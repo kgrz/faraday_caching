@@ -29,3 +29,11 @@ end
 puts "Number of stargazers:    #{counts.uniq.first}"
 puts "Number of requests made: #{counts.count}"
 puts "Response times: #{times}"
+
+
+__END__
+
+❯ ruby complete_without_caching_example.rb
+Number of stargazers:    30
+Number of requests made: 10
+Response times: [1.3, 1.03, 1.02, 1.01, 1.15, 0.99, 1.18, 1.1, 1.11, 1.03]
