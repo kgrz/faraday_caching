@@ -46,35 +46,13 @@ end
 
 store  = MyCacheStore.new(refresh_in: 0.0001)
 
-connection = Faraday.new(url: 'https://api.github.com/') do |faraday|
+CONNECTION = Faraday.new(url: 'https://api.github.com/') do |faraday|
   faraday.use FaradayMiddleware::Caching, store
   faraday.request  :url_encoded
   faraday.adapter  Faraday.default_adapter
 end
 
-# GitHub's API returns a JSON response
-
-FETCHER = lambda do |counts, times|
-  start_time = Time.now
-  response = connection.get('/repos/sinatra/sinatra/stargazers')
-  end_time = Time.now
-
-  response_hash = JSON.load(response.body)
-  counts << response_hash.count
-  times << (end_time - start_time).round(2)
-end
-
-counts = []
-times  = []
-
-10.times do
-  FETCHER.call(counts, times)
-end
-
-puts "Number of stargazers:    #{counts.uniq.first}"
-puts "Number of requests made: #{counts.count}"
-puts "Response times: #{times}"
-
+load File.expand_path('../', __FILE__) + '/fetcher.rb'
 
 __END__
 
