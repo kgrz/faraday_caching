@@ -14,16 +14,13 @@ class MyCacheStore
   end
 
   def fetch(key)
+    raise('Block should be provided') unless block_given?
     result = read(key)
 
     if result.nil?
-      if block_given?
-        result = yield
-        write(key, result)
-        result
-      else
-        result
-      end
+      result = yield
+      write(key, result)
+      result
     else
       result
     end
