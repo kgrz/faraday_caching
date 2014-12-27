@@ -1,10 +1,10 @@
-class MyCacheStore
-  attr_accessor :store_hash
+require './my_cache_store'
+
+class MyCacheStoreWithTimeExpiry < MyCacheStore
   attr_reader :options
 
   def initialize(options = {})
-    @store_hash = {}
-    @options = options
+    super()
     @refresh_in = options.fetch(:refresh_in) { Float::INFINITY }
   end
 
@@ -19,22 +19,6 @@ class MyCacheStore
       nil
     else
       value_hash[:value]
-    end
-  end
-
-  def fetch(key)
-    result = read(key)
-
-    if result.nil?
-      if block_given?
-        result = yield
-        write(key, result)
-        result
-      else
-        result
-      end
-    else
-      result
     end
   end
 end

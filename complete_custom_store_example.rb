@@ -10,6 +10,7 @@ CONNECTION = Faraday.new(url: 'https://api.github.com/') do |faraday|
   faraday.use FaradayMiddleware::Caching, store
   faraday.request  :url_encoded
   faraday.adapter  Faraday.default_adapter
+  faraday.response :logger
 end
 
 load File.expand_path('../', __FILE__) + '/fetcher.rb'
